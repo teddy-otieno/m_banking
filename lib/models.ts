@@ -8,4 +8,12 @@ export interface User {
   last_name: string;
   account_no: string;
   pin: string;
+  avatar: string;
+}
+
+export type TransactionType = 'withdrawal' | 'deposit';
+export interface Transaction {
+  user: Partial<User>;
+  amount: number;
+  t_type: TransactionType;
 }

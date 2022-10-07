@@ -1,6 +1,6 @@
-import {LoginCredentials, User} from '../models';
+import { LoginCredentials, User } from '../models';
 
-const ACCOUNTS: Array<User> = [];
+export const ACCOUNTS: Array<User> = [];
 
 export function validate_user(creds: Partial<LoginCredentials>): User | null {
   const valid_user = ACCOUNTS.find(
@@ -13,7 +13,7 @@ export function validate_user(creds: Partial<LoginCredentials>): User | null {
   }
 }
 
-let SESSION: User | null = null;
+export let SESSION: User | null = null;
 
 export function set_session(user: User) {
   SESSION = user;

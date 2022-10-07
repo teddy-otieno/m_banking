@@ -1,18 +1,17 @@
 import React from 'react';
-import {
-  Button,
-  KeyboardAvoidingView,
-  Platform,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import {Button, KeyboardAvoidingView, Platform, Text, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Colors from '../components/Colors';
-import {LabeledTextInput, Spacer} from '../components/Core';
+import {
+  globalStyles,
+  LabeledTextInput,
+  Spacer,
+  TextButton,
+} from '../components/Core';
 import {set_session} from '../mock/accounts';
 import {LoginCredentials} from '../models';
 import {submit_login_credentials} from '../repo';
+import * as RootNavigation from '../RootNavigation';
 
 export default function () {
   const [login_creds, set_login_creds] = React.useState<
@@ -26,15 +25,19 @@ export default function () {
     }
   };
 
+  const open_sign_up = () => {
+    RootNavigation.navigate('sign_up', {});
+  };
+
   return (
-    <SafeAreaView style={containerStyles.background}>
-      <View style={containerStyles.container}>
+    <SafeAreaView style={globalStyles.background}>
+      <View style={globalStyles.container}>
         <KeyboardAvoidingView
-          style={containerStyles.login_form}
+          style={globalStyles.login_form}
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-          <Text style={containerStyles.header}>Welcome to M-Bank</Text>
+          <Text style={globalStyles.header}>Welcome to M-Bank</Text>
           <Spacer height={30} />
-          <Text style={containerStyles.subtitle}>Please login to continue</Text>
+          <Text style={globalStyles.subtitle}>Please login to continue</Text>
           <Spacer height={10} />
           <LabeledTextInput
             value={login_creds.account_no ?? ''}
@@ -49,37 +52,13 @@ export default function () {
           />
           <Spacer height={20} />
           <Button color={Colors.violet} title="Login" onPress={login_user} />
+          <Spacer height={5} />
+          <TextButton
+            title="Dont Have and Account Yet?"
+            on_press={open_sign_up}
+          />
         </KeyboardAvoidingView>
       </View>
     </SafeAreaView>
   );
 }
-
-const containerStyles = StyleSheet.create({
-  background: {
-    backgroundColor: Colors.background,
-    color: Colors.text,
-  },
-  container: {
-    width: '100%',
-    height: '100%',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  header: {
-    fontSize: 20,
-    fontWeight: '500',
-    color: Colors.violet,
-  },
-  subtitle: {
-    fontSize: 16,
-    fontWeight: 'normal',
-  },
-  login_form: {
-    padding: 20,
-    backgroundColor: '#ffffff',
-    borderRadius: 10,
-    height: '50%',
-    width: '80%',
-  },
-});
